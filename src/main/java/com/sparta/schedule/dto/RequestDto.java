@@ -13,4 +13,3 @@ public class RequestDto { //TODO 갈때의 dto 다른 서버로
     private String password ;
 
     }
-

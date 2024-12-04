@@ -17,8 +17,7 @@ public class Scheduleitem {
     private LocalDateTime fixDate;
     private LocalDateTime flexDate;
 
-    public Scheduleitem(Long id, String author, String contents, String password) {
-        this.id=id;
+    public Scheduleitem( String author, String contents, String password) {
         this.author=author;
         this.contents=contents;
         this.password = password;
