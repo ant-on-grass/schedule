@@ -2,7 +2,7 @@ package com.sparta.schedule.service;
 
 
 import com.sparta.schedule.dto.CreateRequestDto;
-import com.sparta.schedule.dto.CreateResponseDto;
+import com.sparta.schedule.dto.ResponseDto;
 import com.sparta.schedule.entity.Scheduleitem;
 import com.sparta.schedule.repository.ScheduleRepositoryJdbc;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public CreateResponseDto saveSchedule(CreateRequestDto dto) {
+    public ResponseDto saveSchedule(CreateRequestDto dto) {
 
         //new Scheduleitem(dto)
 
@@ -37,6 +37,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         scheduleRepositoryJdbc.scheduleSave(scheduleitem);
 
-        return new CreateResponseDto(scheduleitem);
+        return new ResponseDto(scheduleitem);
     }
 }

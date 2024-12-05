@@ -1,34 +1,35 @@
 package com.sparta.schedule.controller;
 
-import com.sparta.schedule.dto.CreateRequestDto;
-import com.sparta.schedule.dto.CreateResponseDto;
+import com.sparta.schedule.dto.ResponseDto;
+import com.sparta.schedule.dto.ViewRequestDto;
 import com.sparta.schedule.service.ScheduleViewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/schedule")
 public class ScheduleViewController {
 
-    ScheduleViewService scheduleViewService;
+    private final ScheduleViewService scheduleViewService;
 
-    ScheduleViewController(ScheduleViewService scheduleViewService) {
+    public ScheduleViewController(ScheduleViewService scheduleViewService) {
         this.scheduleViewService = scheduleViewService;
 
     }
 
-    @GetMapping
-    public ResponseEntity<CreateResponseDto> scheduleViewAll(@RequestBody CreateRequestDto dto) {
+    @GetMapping()
+    public ResponseEntity<List<ResponseDto>> scheduleViewAll(@RequestBody ViewRequestDto dto) throws SQLException {
 
         // 서비스 호출
-        CreateResponseDto createResponseDto = scheduleViewService.scheduleViewAll(dto);
+        List<ResponseDto> responseDtos = scheduleViewService.scheduleViewAll(dto);
 
 
-        return new ResponseEntity<>(createResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(responseDtos, HttpStatus.OK);
     }
+
 }

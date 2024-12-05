@@ -1,7 +1,7 @@
 package com.sparta.schedule.repository;
 
-import com.sparta.schedule.dto.CreateRequestDto;
-import com.sparta.schedule.dto.CreateResponseDto;
+import com.sparta.schedule.dto.ResponseDto;
+import com.sparta.schedule.dto.ViewRequestDto;
 import com.sparta.schedule.entity.Scheduleitem;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -9,7 +9,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -18,14 +21,13 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
 
     private final Map<Long, Scheduleitem> scheduleList = new HashMap<>();
     private final JdbcTemplate jdbcTemplate;
-    //private final DataSource dataSource;
-
+    private Connection connection;
 
     public ScheduleRepositoryJdbc(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public CreateResponseDto scheduleSave(Scheduleitem scheduleitem) {
+    public ResponseDto scheduleSave(Scheduleitem scheduleitem) {
 
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         simpleJdbcInsert.withSchemaName("schedule").withTableName("schedule").usingGeneratedKeyColumns("id");
@@ -42,17 +44,42 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         Long id = (Long) key;
 
         scheduleitem.setId(id);
-        return new CreateResponseDto(scheduleitem);
+        return new ResponseDto(scheduleitem);
     }
 
 
+    public List<ResponseDto> scheduleViewAll(ViewRequestDto dto) throws SQLException {
 
-    public  scheduleViewAll(CreateRequestDto dto) {
+        String sql = "select * from schedule";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
+            List<ResponseDto> viewalldata = new ArrayList<>();
+            while(resultSet.next()) {
+                ResponseDto responseDto = new ResponseDto();
+                responseDto.setId(resultSet.getLong("id"));
+                responseDto.setAuthor(resultSet.getString("author"));
+                responseDto.setContents(resultSet.getString("comments"));
 
+                Timestamp flexDatePreConvert = resultSet.getTimestamp("flexDate");
+                if (flexDatePreConvert != null) {
+                    responseDto.setFlexDate(flexDatePreConvert.toLocalDateTime());
+                } //TODO responseDto.setFlexDate(resultSet.getDate("flexDate")); < - LocalDateTime 타입인 flexDate 는
+                //TODO 해당 방법으로는 바로 LocalDateTime 타입의 값을 반환받을 수 없어, 시간과 날자를 받을 수 있는 timestamp 로 받은 뒤, LocalDateTime 으로 변환시켜줘야한다!!
 
+                Timestamp fixDatePreConvert = resultSet.getTimestamp("fixDate");
+                if (fixDatePreConvert != null) {
+                    responseDto.setFixDate(fixDatePreConvert.toLocalDateTime());
+                }
+                viewalldata.add(responseDto);
 
+            } return viewalldata;
+        }catch (SQLException e) {
+            // 예외 처리: 로그 추가
+            e.printStackTrace();
+            throw new RuntimeException("Database error occurred while fetching schedule", e);
+        }
 
-        return
     }
 
 

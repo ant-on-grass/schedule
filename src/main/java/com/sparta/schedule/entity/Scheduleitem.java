@@ -15,6 +15,7 @@ public class Scheduleitem {
     private String contents ;
     private final String password ;
     private LocalDateTime fixDate;
+    //private final LocalDateTime fixDate; //TODO 고려해봐야함!
     private LocalDateTime flexDate;
 
     public Scheduleitem( String author, String contents, String password) {
