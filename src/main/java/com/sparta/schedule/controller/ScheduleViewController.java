@@ -32,4 +32,16 @@ public class ScheduleViewController {
         return new ResponseEntity<>(responseDtos, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto> test(@RequestBody ViewRequestDto dto) throws SQLException {
+
+        // 서비스 호출
+
+        ResponseDto responseDtos = scheduleViewService.scheduleView(dto);
+
+
+        return new ResponseEntity<>(responseDtos, HttpStatus.OK);
+    }
+
+
 }

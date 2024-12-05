@@ -33,4 +33,11 @@ public class ScheduleViewService {
         //TODO 그후에 값을 controller 로 넘김
         return responseDtos;
     }
+
+
+    public ResponseDto scheduleView(ViewRequestDto dto) throws SQLException {
+
+        ResponseDto responseDtos = jdbc.scheduleView(dto);
+        return responseDtos;
+    }
 }

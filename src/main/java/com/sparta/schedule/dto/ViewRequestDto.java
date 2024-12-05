@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ViewRequestDto { //TODO 갈때의 dto 다른 서버로
 
-    private String author;
-    private LocalDateTime flexDate;
+    private Long id;
 
     public ViewRequestDto() {} // viewAll 용
 

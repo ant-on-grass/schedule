@@ -81,6 +81,40 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         }
 
     }
+    public ResponseDto scheduleView(ViewRequestDto dto) throws SQLException {
+        String sql = "Select * from schedule where id = ?";
+        ResponseDto responseDto = new ResponseDto();
+        try (
+            PreparedStatement ps = connection.prepareStatement(sql))
+            {
+            //TODO ps.setInt(1, dto.getId());
+            ps.setLong(1,dto.getId());
+            try (
+                ResultSet resultSet = ps.executeQuery())
+            {
+            if(resultSet.next()){
+            responseDto.setId(resultSet.getLong("id"));
+            responseDto.setAuthor(resultSet.getString("author"));
+            responseDto.setContents(resultSet.getString("comments"));
 
+            Timestamp flexDatePreConvert = resultSet.getTimestamp("flexDate");
+            if (flexDatePreConvert != null) {
+                responseDto.setFlexDate(flexDatePreConvert.toLocalDateTime());
+            }
 
+            Timestamp fixDatePreConvert = resultSet.getTimestamp("fixDate");
+            if (fixDatePreConvert != null) {
+                responseDto.setFixDate(fixDatePreConvert.toLocalDateTime());
+
+                }
+                return responseDto;
+            } else {
+                // 데이터가 없을 경우
+                System.out.println("ID " + dto.getId() + "에 해당하는 데이터가 없습니다.");
+                return null; //TODO 혹은 Optional.empty()로 감싸기
+            }
+            }
+
+            }
+        }
 }
