@@ -28,10 +28,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         //new Scheduleitem(dto)
 
-        Scheduleitem scheduleitem = new Scheduleitem(dto.getAuthor(), dto.getContents(), dto.getPassword());
-
         LocalDateTime fixDate = LocalDateTime.now();
-        scheduleitem.setFixDate(fixDate);
+
+        Scheduleitem scheduleitem = new Scheduleitem(dto.getAuthor(), dto.getContents(), dto.getPassword(),fixDate);
+
         LocalDateTime flexDate = fixDate;
         scheduleitem.setFlexDate(flexDate);
 
