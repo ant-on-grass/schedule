@@ -36,7 +36,7 @@ public class ScheduleViewService {
     }
 
 
-    public ResponseDto scheduleView(ViewRequestDto dto) throws SQLException {
+    public ResponseDto (ViewRequestDto dto) throws SQLException {
 
         ResultSet resultSet = jdbc.scheduleView(dto);
 
