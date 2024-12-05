@@ -1,12 +1,14 @@
 package com.sparta.schedule.repository;
 
-import com.sparta.schedule.dto.ResponseDto;
+import com.sparta.schedule.dto.CreateRequestDto;
+import com.sparta.schedule.dto.CreateResponseDto;
 import com.sparta.schedule.entity.Scheduleitem;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,12 +18,14 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
 
     private final Map<Long, Scheduleitem> scheduleList = new HashMap<>();
     private final JdbcTemplate jdbcTemplate;
+    //private final DataSource dataSource;
 
-    public ScheduleRepositoryJdbc(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+
+    public ScheduleRepositoryJdbc(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public ResponseDto scheduleSave(Scheduleitem scheduleitem) {
+    public CreateResponseDto scheduleSave(Scheduleitem scheduleitem) {
 
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         simpleJdbcInsert.withSchemaName("schedule").withTableName("schedule").usingGeneratedKeyColumns("id");
@@ -38,6 +42,18 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         Long id = (Long) key;
 
         scheduleitem.setId(id);
-        return new ResponseDto(scheduleitem);
+        return new CreateResponseDto(scheduleitem);
     }
+
+
+
+    public  scheduleViewAll(CreateRequestDto dto) {
+
+
+
+
+        return
+    }
+
+
 }

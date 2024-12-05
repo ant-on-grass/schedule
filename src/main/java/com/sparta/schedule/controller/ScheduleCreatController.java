@@ -1,9 +1,7 @@
 package com.sparta.schedule.controller;
 
-import com.sparta.schedule.dto.RequestDto;
-import com.sparta.schedule.dto.ResponseDto;
-import com.sparta.schedule.entity.Scheduleitem;
-import com.sparta.schedule.service.ScheduleService;
+import com.sparta.schedule.dto.CreateRequestDto;
+import com.sparta.schedule.dto.CreateResponseDto;
 import com.sparta.schedule.service.ScheduleServiceImpl;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -12,11 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/schedules")
@@ -31,7 +24,7 @@ public class ScheduleCreatController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDto> scheduleCreat(@RequestBody RequestDto dto) {
+    public ResponseEntity<CreateResponseDto> scheduleCreat(@RequestBody CreateRequestDto dto) {
 
         //ResponseDto responseDto = scheduleService.saveSchedule(dto);
 

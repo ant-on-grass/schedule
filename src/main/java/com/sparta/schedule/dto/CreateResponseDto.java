@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ResponseDto { //TODO client 로 돌아오는 dto
+public class CreateResponseDto { //TODO client 로 돌아오는 dto
 
     private Long id;
     private String author;
@@ -15,9 +15,9 @@ public class ResponseDto { //TODO client 로 돌아오는 dto
     private LocalDateTime fixDate;
     private LocalDateTime flexDate;
 
-    public ResponseDto(){} //TODO 기본 생성자가 필요! massagecontroller 가 서버에 맞는 형태로 바꿔줄때에 필요하다.
+    public CreateResponseDto(){} //TODO 기본 생성자가 필요! massagecontroller 가 서버에 맞는 형태로 바꿔줄때에 필요하다.
 
-    public ResponseDto(Scheduleitem scheduleitem){
+    public CreateResponseDto(Scheduleitem scheduleitem){
 
         this.id = scheduleitem.getId();
         this.author = scheduleitem.getAuthor();

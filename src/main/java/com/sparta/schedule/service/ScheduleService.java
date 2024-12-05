@@ -1,9 +1,9 @@
 package com.sparta.schedule.service;
 
-import com.sparta.schedule.dto.RequestDto;
-import com.sparta.schedule.dto.ResponseDto;
+import com.sparta.schedule.dto.CreateRequestDto;
+import com.sparta.schedule.dto.CreateResponseDto;
 
 public interface ScheduleService {
 
-    public ResponseDto saveSchedule(RequestDto dto);
+    public CreateResponseDto saveSchedule(CreateRequestDto dto);
 }
