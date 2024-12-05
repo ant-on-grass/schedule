@@ -33,11 +33,11 @@ public class ScheduleViewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> test(@RequestBody ViewRequestDto dto) throws SQLException {
+    public ResponseEntity<ResponseDto> test(@PathVariable Long id) throws SQLException {
 
         // 서비스 호출
 
-        ResponseDto responseDtos = scheduleViewService.scheduleView(dto);
+        ResponseDto responseDtos = scheduleViewService.scheduleView(id);
 
 
         return new ResponseEntity<>(responseDtos, HttpStatus.OK);

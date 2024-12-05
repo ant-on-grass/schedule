@@ -36,9 +36,9 @@ public class ScheduleViewService {
     }
 
 
-    public ResponseDto scheduleView(ViewRequestDto dto) throws SQLException {
+    public ResponseDto scheduleView(Long id) throws SQLException {
 
-        ResultSet resultSet = jdbc.scheduleView(dto);
+        ResultSet resultSet = jdbc.scheduleView(id);
 
         ResponseDto responseDto = new ResponseDto();
         try (resultSet) {
@@ -60,7 +60,7 @@ public class ScheduleViewService {
                 return responseDto;
             } else {
                 // 데이터가 없을 경우
-                System.out.println("ID " + dto.getId() + "에 해당하는 데이터가 없습니다.");
+                System.out.println("ID " + id + "에 해당하는 데이터가 없습니다.");
                 return null; //TODO 혹은 Optional.empty()로 감싸기
             }
         }

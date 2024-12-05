@@ -81,11 +81,11 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         }
 
     }
-    public ResultSet scheduleView(ViewRequestDto dto) throws SQLException {
+    public ResultSet scheduleView(Long id) throws SQLException {
         String sql = "Select * from schedule where id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         //TODO ps.setInt(1, dto.getId());
-        ps.setLong(1,dto.getId());
+        ps.setLong(1,id);
         ResultSet resultSet = ps.executeQuery();
 
         return resultSet;
