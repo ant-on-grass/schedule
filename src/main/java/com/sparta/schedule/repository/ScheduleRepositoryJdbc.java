@@ -47,7 +47,7 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         return new ResponseDto(scheduleitem);
     }
 
-
+    //TODO 이거 처리로직을 여기다 놓으면 안됨! 다시 옮겨줘야함
     public List<ResponseDto> scheduleViewAll(ViewRequestDto dto) throws SQLException {
 
         String sql = "select * from schedule";
