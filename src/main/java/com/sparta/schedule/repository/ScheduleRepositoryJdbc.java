@@ -134,6 +134,23 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         return resultSet;
     }
 
+    public ResultSet scheduleSpecificDelete(Long id) throws SQLException, ClassNotFoundException {
+
+        Connection connection = getConnection();
+
+        String sql = "Select * from schedule where id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        //TODO Statement 객체를 생성할 때 ResultSet의 동시성과 유형을 설정?
+
+        //TODO ps.setInt(1, dto.getId());
+        ps.setLong(1,id);
+        ResultSet resultSet = ps.executeQuery();
+
+        return resultSet;
+    }
+
 
     private Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -143,12 +160,4 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         return connection;
     }
 
-    private DriverManagerDataSource extracted() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/schedule");
-        dataSource.setUsername("root");
-        dataSource.setPassword("testroot1234!@#$");
-        return dataSource;
-    }
 }
