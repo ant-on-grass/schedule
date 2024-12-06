@@ -122,7 +122,11 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         Connection connection = getConnection();
 
         String sql = "Select * from schedule where id = ?";
-        PreparedStatement ps = connection.prepareStatement(sql);
+        PreparedStatement ps = connection.prepareStatement(sql,
+                ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        //TODO Statement 객체를 생성할 때 ResultSet의 동시성과 유형을 설정?
+
         //TODO ps.setInt(1, dto.getId());
         ps.setLong(1,id);
         ResultSet resultSet = ps.executeQuery();

@@ -33,6 +33,7 @@ public class ScheduleSetService {
                         resultSet.updateString(2,dto.getAuthor());
                         resultSet.updateString(3,dto.getContents());
                         resultSet.updateObject(4,flexDate);
+                        resultSet.updateRow(); //TODO  resultSet.update 사용하여 값 변경시 반드시 호출해야 변경 사항이 적용됨
 
                         ResponseDto responseDto = new ResponseDto();
 

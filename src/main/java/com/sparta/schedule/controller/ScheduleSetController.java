@@ -23,7 +23,7 @@ public class ScheduleSetController {
 
     @PatchMapping("/{id}")
     //@PatchMapping("/id={id}&author={author}&contents={contents}")//TODO 이건 아닌듯?
-    public ResponseEntity<ResponseDto> scheduleSpecificSet(@PathVariable Long id,
+    public ResponseEntity<ResponseDto> scheduleSpecificSet(@PathVariable("id") Long id,
         @RequestBody SetRequestDto dto) throws SQLException {
 
         //scheduleSetService.scheduleSpecificSet(id ,dto);
