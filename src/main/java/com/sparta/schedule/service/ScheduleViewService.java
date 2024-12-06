@@ -21,12 +21,12 @@ public class ScheduleViewService {
         this.jdbc = jdbc;
     }
 
-    public List<ResponseDto> scheduleViewAll(ViewRequestDto dto) throws SQLException {
+    public List<ResponseDto> scheduleViewAll() throws SQLException, ClassNotFoundException {
 
         //TODO 추후에 이곳은 검증 로직 이 들어갈 부분!!!
 
         //TODO 검증 후 넘김 - > repository 에 넘김
-        List<ResponseDto> responseDtos = jdbc.scheduleViewAll(dto);
+        List<ResponseDto> responseDtos = jdbc.scheduleViewAll();
         //TODO repository 의 결과 값을 다시 로직으로 처리 할 수 있다
 
 
@@ -36,7 +36,7 @@ public class ScheduleViewService {
     }
 
 
-    public ResponseDto scheduleView(Long id) throws SQLException {
+    public ResponseDto scheduleView(Long id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = jdbc.scheduleView(id);
 

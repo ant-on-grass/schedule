@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/schedules")
 public class ScheduleViewController {
 
     private final ScheduleViewService scheduleViewService;
@@ -23,17 +23,17 @@ public class ScheduleViewController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ResponseDto>> scheduleViewAll(@RequestBody ViewRequestDto dto) throws SQLException {
+    public ResponseEntity<List<ResponseDto>> scheduleViewAll() throws SQLException, ClassNotFoundException {
 
         // 서비스 호출
-        List<ResponseDto> responseDtos = scheduleViewService.scheduleViewAll(dto);
+        List<ResponseDto> responseDtos = scheduleViewService.scheduleViewAll();
 
 
         return new ResponseEntity<>(responseDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> test(@PathVariable Long id) throws SQLException {
+    public ResponseEntity<ResponseDto> test(@PathVariable Long id) throws SQLException, ClassNotFoundException {
 
         // 서비스 호출
 

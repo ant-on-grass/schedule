@@ -35,6 +35,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         LocalDateTime flexDate = fixDate;
         scheduleitem.setFlexDate(flexDate);
 
+        //TODO 세상에! scheduleSave()에서 scheduleitem의 매개변수 값에 setId를 통해 scheduleitem 객체에 id 값을 채워줌
         scheduleRepositoryJdbc.scheduleSave(scheduleitem);
 
         return new ResponseDto(scheduleitem);

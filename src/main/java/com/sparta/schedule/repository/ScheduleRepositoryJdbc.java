@@ -1,11 +1,13 @@
 package com.sparta.schedule.repository;
 
 import com.sparta.schedule.dto.ResponseDto;
-import com.sparta.schedule.dto.ViewRequestDto;
+import com.sparta.schedule.dto.SetRequestDto;
 import com.sparta.schedule.entity.Scheduleitem;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -17,20 +19,37 @@ import java.util.Map;
 
 
 @Repository
+@Slf4j
 public class ScheduleRepositoryJdbc implements ScheduleRepository {
 
-    private final Map<Long, Scheduleitem> scheduleList = new HashMap<>();
     private final JdbcTemplate jdbcTemplate;
-    private Connection connection;
+
 
     public ScheduleRepositoryJdbc(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public ResponseDto scheduleSave(Scheduleitem scheduleitem) {
+    public void scheduleSave(Scheduleitem scheduleitem) {
 
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        simpleJdbcInsert.withSchemaName("schedule").withTableName("schedule").usingGeneratedKeyColumns("id");
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+        jdbcInsert.withTableName("schedule").usingGeneratedKeyColumns("id");
+
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("author", scheduleitem.getAuthor());
+        parameters.put("comments", scheduleitem.getContents());
+        parameters.put("flexDate", scheduleitem.getFlexDate().toString());
+        parameters.put("fixDate", scheduleitem.getFixDate().toString());
+        parameters.put("password", scheduleitem.getPassword());
+
+        Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
+        //TODO 리턴 값이 필요 없는게 사용한 매개 변수에 id 값만 넣어주면, 해당 메서드에서 하는 역할 아이템 저장(id 포함) + scheduleitem 에 id 값을 저장
+        scheduleitem.setId(key.longValue());
+
+        /*SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("schedule")
+                .usingGeneratedKeyColumns("id")
+                .usingColumns("author","comments","flexDate","fixDate","password");
+
 
         final Map<String, Object> parameters = Map.of(
                 "author", scheduleitem.getAuthor(),
@@ -41,14 +60,16 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
                 );
 
         Number key = simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
-        Long id = (Long) key;
+        scheduleitem.setId(key.longValue());
 
-        scheduleitem.setId(id);
-        return new ResponseDto(scheduleitem);
+*/
     }
 
 
-    public List<ResponseDto> scheduleViewAll(ViewRequestDto dto) throws SQLException {
+    public List<ResponseDto> scheduleViewAll() throws SQLException, ClassNotFoundException {
+
+        Connection connection = getConnection();
+
 
         String sql = "select * from schedule";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -81,7 +102,12 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
         }
 
     }
-    public ResultSet scheduleView(Long id) throws SQLException {
+
+
+    public ResultSet scheduleView(Long id) throws SQLException, ClassNotFoundException {
+
+        Connection connection = getConnection();
+
         String sql = "Select * from schedule where id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         //TODO ps.setInt(1, dto.getId());
@@ -90,4 +116,35 @@ public class ScheduleRepositoryJdbc implements ScheduleRepository {
 
         return resultSet;
         }
+
+    public ResultSet scheduleSpecificSet(Long id , SetRequestDto dto ) throws SQLException, ClassNotFoundException {
+
+        Connection connection = getConnection();
+
+        String sql = "Select * from schedule where id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        //TODO ps.setInt(1, dto.getId());
+        ps.setLong(1,id);
+        ResultSet resultSet = ps.executeQuery();
+
+        return resultSet;
+    }
+
+
+    private Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        // 1. Connection
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/schedule", "root", "testroot1234!@#$");
+        return connection;
+    }
+
+    private DriverManagerDataSource extracted() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/schedule");
+        dataSource.setUsername("root");
+        dataSource.setPassword("testroot1234!@#$");
+        return dataSource;
+    }
 }

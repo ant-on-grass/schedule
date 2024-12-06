@@ -2,6 +2,7 @@ package com.sparta.schedule.dto;
 
 
 import com.sparta.schedule.entity.Scheduleitem;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ResponseDto { //TODO client 로 돌아오는 dto
 
     private Long id;
