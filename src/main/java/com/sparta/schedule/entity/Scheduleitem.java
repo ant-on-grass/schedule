@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class Scheduleitem {
+public class Scheduleitem { // 데이터 베이스에 저장이 될 객체 클래스
 
     private Long id;
     private String author;

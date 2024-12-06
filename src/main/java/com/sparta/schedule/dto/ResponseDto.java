@@ -8,9 +8,17 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+
+
 @Getter
+// 자동 getter 를 만들어주는 annotation
+
 @Setter
+// 자동 getter 를 만들어주는 annotation
+
 @AllArgsConstructor
+// 자동 생성자를 만들어주는 annotation
+
 public class ResponseDto { //TODO client 로 돌아오는 dto
 
     private Long id;

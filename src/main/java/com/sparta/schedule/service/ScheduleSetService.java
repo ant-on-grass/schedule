@@ -2,6 +2,7 @@ package com.sparta.schedule.service;
 
 import com.sparta.schedule.dto.ResponseDto;
 import com.sparta.schedule.dto.SetRequestDto;
+import com.sparta.schedule.entity.Scheduleitem;
 import com.sparta.schedule.repository.ScheduleRepositoryJdbc;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +11,25 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-@Service
+@Service // service 의 역할을 맡은 걸을 알려주는 annotaion // 해당 annotaion 은 conponent 를 상속받아, 자동 been 객체가 된다 - > 스프링컨테이너에 자동 등록!
 public class ScheduleSetService {
 
     private ScheduleRepositoryJdbc scheduleRepositoryJdbc;
 
+    // DI
     public ScheduleSetService(ScheduleRepositoryJdbc scheduleRepositoryJdbc) {
         this.scheduleRepositoryJdbc = scheduleRepositoryJdbc;
     }
 
+    /**
+     * repository에서 가지고 온 저장 데이터를 가공!
+     * @param id
+     * @param dto
+     * @return ResponseDto - Scheduleitem 말고, 비밀번호가 없어야해서!
+     * @throws SQLException
+     */
     public ResponseDto scheduleSpecificSet(Long id , SetRequestDto dto) throws SQLException {
+    // repository 에서 반복 되는 것들 생략
 
         if( dto.getAuthor() != null ){
 

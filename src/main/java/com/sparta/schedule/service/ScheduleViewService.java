@@ -12,15 +12,23 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Service
+@Service // service 의 역할을 맡은 걸을 알려주는 annotaion // 해당 annotaion 은 conponent 를 상속받아, 자동 been 객체가 된다 - > 스프링컨테이너에 자동 등록!
 public class ScheduleViewService {
 
     ScheduleRepositoryJdbc jdbc;
 
+    // DI
     public ScheduleViewService(ScheduleRepositoryJdbc jdbc) {
         this.jdbc = jdbc;
     }
 
+    /**
+     * 모든 데이터 조회? 메서드 - 그냥 전달 메서드
+     *
+     * @retuen ResponseDto - Scheduleitem 말고, 비밀번호가 없어야해서!
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public List<ResponseDto> scheduleViewAll() throws SQLException, ClassNotFoundException {
 
         //TODO 추후에 이곳은 검증 로직 이 들어갈 부분!!!
@@ -35,7 +43,13 @@ public class ScheduleViewService {
         return responseDtos;
     }
 
-
+    /**
+     * 특정 조건(id)에 맞는 저장 데이터를 보여주는 메서드
+     * @param id
+     * @return ResponseDto - Scheduleitem 말고, 비밀번호가 없어야해서!
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ResponseDto scheduleView(Long id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = jdbc.scheduleView(id);
@@ -46,7 +60,7 @@ public class ScheduleViewService {
                 responseDto.setId(resultSet.getLong("id"));
                 responseDto.setAuthor(resultSet.getString("author"));
                 responseDto.setContents(resultSet.getString("comments"));
-                
+
 
                 Timestamp flexDatePreConvert = resultSet.getTimestamp("flexDate");
                 if (flexDatePreConvert != null) {
