@@ -33,7 +33,7 @@ public class ScheduleViewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> test(@PathVariable Long id) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<ResponseDto> test(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
 
         // 서비스 호출
 

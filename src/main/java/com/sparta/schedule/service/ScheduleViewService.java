@@ -46,6 +46,7 @@ public class ScheduleViewService {
                 responseDto.setId(resultSet.getLong("id"));
                 responseDto.setAuthor(resultSet.getString("author"));
                 responseDto.setContents(resultSet.getString("comments"));
+                
 
                 Timestamp flexDatePreConvert = resultSet.getTimestamp("flexDate");
                 if (flexDatePreConvert != null) {
