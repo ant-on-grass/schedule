@@ -19,7 +19,7 @@ lv에 맞는 요구사항에 따라, lv0 ~ lv6 까지 진행가능한 과제
 ---
 
 ## ERD 
-![schedule](C:\Users\user\Desktop\20241209_164814.png)
+![schedule](https://github.com/user-attachments/assets/6421fe3b-8481-40bf-9654-e9245ec753c3)
 
 ---
 ---
